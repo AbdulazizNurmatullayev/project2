@@ -1,0 +1,24 @@
+    public void register(User user) {
+        User savedUser = saveUser(user);
+        String code = generateCode(user);
+        boolean sent = sendInviteText();
+        System.out.println("User: " + savedUser + " with code: " + code + " successfully registered.Invite status: " + sent);
+    }
+
+    public void registerMultiThread(User user) {
+        ExecutorService executor = Executors.newFixedThreadPool(3);
+
+        Future<User> saveUser = executor.submit(() -> saveUser(user));
+        Future<String> generateCode = executor.submit(() -> generateCode(user));
+        Future<Boolean> inviteUser = executor.submit(this::sendInviteText);
+
+        try {
+            User savedUser = saveUser.get();
+            String code = generateCode.get();
+            boolean sent = inviteUser.get();
+            System.out.println("User: " + savedUser + " with code: " + code + " successfully registered.Invite status: " + sent);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        executor.shutdown();
+    }
