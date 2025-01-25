@@ -1,0 +1,32 @@
+
+    private User saveUser(User user) {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        users.add(user);
+        return user;
+    }
+
+    private String generateCode(User user) {
+        Random random = new Random();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        String code = String.format("%06d", random.nextInt(1000));
+        user.setCode(code);
+        return code;
+    }
+
+    private boolean sendInviteText() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+}
